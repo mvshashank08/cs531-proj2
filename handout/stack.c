@@ -35,25 +35,21 @@ Stack_head *stack_initialize() {
  * If head is NULL, you can just return.
  */
 void stack_destroy(Stack_head *head) {
+  Node *walker = head->top;
+  while(walker != NULL){
+    // walking through each node and freeing it
+    Node *next = walker->next;
+    walker->next = NULL;
+    token_free(walker->tok);
+    free(walker);
+    walker = next;
+  }
+  free(head->top);
+  head->top = NULL; //setting top to NULL
+  // freeing up head and setting it to null
+  free(head);
+  head = NULL;
   
-  if(head->top == NULL){
-    // when empty stack is provided
-    return;
-  }
-  else{
-    Node *walker = head->top;
-    while(walker != NULL){
-      // walking through each node and freeing it
-      Node *next = walker->next;
-      token_free(walker->tok);
-      free(walker);
-      walker = next;
-    }
-    head->top = NULL; //setting top to NULL
-    // freeing up head and setting it to null
-    free(head);
-    head = NULL;
-  }
   return;
 }
 

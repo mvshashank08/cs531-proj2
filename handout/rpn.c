@@ -131,6 +131,9 @@ static int parse_token(Symtab *symtab, Stack_head *stack, Token *tok) {
     // freeing up tokens
     token_free(tok2);
     token_free(tok1);
+    tok1 = NULL;
+    tok2 = NULL;
+    res_tok = NULL;
     return 0;
   }
   if(tok->type == TYPE_VARIABLE){

@@ -12,7 +12,7 @@
 #define MAX_LOAD 2.0
 
 
-void destroy_symbol_llist(Symbol** head);
+void destroy_symbol_list(Symbol* head);
 Symbol* find_var(Symbol* head, char* var);
 void insert_new_var(Symbol** head, char* var, int val);
 
@@ -56,27 +56,24 @@ void hash_destroy(Symtab *symtab) {
   // destroying linked lists associated with hash indices
   for(i = 0; i < symtab->capacity; i++){
     // destry each linked list
-    destroy_symbol_llist(symtab->table);
+    destroy_symbol_list((symtab->table)[i]);
+    free((symtab->table)[i]);
   }
   // freeing up symtab after freeing its linked list
   free(symtab->table);
+  free(symtab);
   return;
 }
 
-void destroy_symbol_llist(Symbol** head){
-  // return when linked list is empty
-  if((*head) == NULL){
-    return;
-  }
+void destroy_symbol_list(Symbol* head){
 
-  Symbol *walker = (*head);
+  Symbol *walker = head;
   while(walker != NULL){
     Symbol* next = walker->next;
+    walker->next = NULL;
     symbol_free(walker);
     walker = next;
   }
-  // setting table head to NULL
-  (*head) = NULL;
   return;
 }
 
