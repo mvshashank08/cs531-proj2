@@ -202,9 +202,7 @@ Token* perform_op(Token* tok1, Token* tok2, int op, Symtab *symtab){
       result = tok1_val / tok2_val;
       break;
   }
-  Token * res_tok = NULL;
-  res_tok = token_create_value(result);
-  return res_tok;
+  return token_create_value(result);
 }
 
 /* This has been written for you.

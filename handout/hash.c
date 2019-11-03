@@ -61,7 +61,6 @@ void hash_destroy(Symtab *symtab) {
   }
   // freeing up symtab after freeing its linked list
   free(table);
-  free(symtab);
   return;
 }
 
