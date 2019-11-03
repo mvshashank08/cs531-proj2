@@ -98,6 +98,7 @@ static int read_file(char *filename, char *line) {
   }
   // read the line
   fgets(line, MAX_LINE_LEN, fp);
+  fclose(fp);
   return 0;
 }
 
