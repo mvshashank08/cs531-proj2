@@ -238,8 +238,12 @@ void hash_rehash(Symtab *symtab, int new_capacity) {
     // walk through and insert every element into new hash table
     while(walker != NULL){
       Symbol* sym_copy = symbol_copy(walker);
-      hash_put(new_symtab, sym_copy->variable, sym_copy->val);
+      char var_name[MAX_VARIABLE_LEN];
+      strncpy(var_name, sym_copy->variable, MAX_VARIABLE_LEN);
+
+      hash_put(new_symtab, var_name, sym_copy->val);
       walker = walker->next;
+      symbol_free(sym_copy);
     }
   }
   // destroy old symtable
@@ -249,6 +253,7 @@ void hash_rehash(Symtab *symtab, int new_capacity) {
   symtab->size = new_symtab->size;
   symtab->capacity = new_symtab->capacity;
   symtab->table = new_symtab->table;
+  free(new_symtab);
   return;
 }
 
