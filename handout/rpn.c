@@ -161,6 +161,7 @@ static int parse_token(Symtab *symtab, Stack_head *stack, Token *tok) {
     token_free(tok1);
     return 0;
   }
+  token_free(tok);
   return -1;
 }
 
@@ -170,7 +171,9 @@ Token* perform_op(Token* tok1, Token* tok2, int op, Symtab *symtab){
   int tok1_val, tok2_val, result;
   if(tok1->type == TYPE_VARIABLE){
     // get value from symbol table
-    tok1_val = (hash_get(symtab, tok1->variable))->val;
+    Symbol* temp_sym1 = hash_get(symtab, tok1->variable);
+    tok1_val = temp_sym1->val;
+    free(temp_sym1); // freeing the temp copy
   }
   else{
     tok1_val = tok1->value;
@@ -178,7 +181,9 @@ Token* perform_op(Token* tok1, Token* tok2, int op, Symtab *symtab){
 
   if(tok2->type == TYPE_VARIABLE){
     // get value from symbol table
-    tok2_val = (hash_get(symtab, tok2->variable))->val;
+    Symbol* temp_sym2 = hash_get(symtab, tok2->variable);
+    tok2_val = temp_sym2->val;
+    free(temp_sym2); // freeing the temp copy
   }
   else{
     tok2_val = tok2->value;

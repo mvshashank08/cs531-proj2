@@ -53,14 +53,14 @@ void hash_destroy(Symtab *symtab) {
     return;
   }
   int i;
+  Symbol **table = symtab->table;
   // destroying linked lists associated with hash indices
   for(i = 0; i < symtab->capacity; i++){
     // destry each linked list
-    destroy_symbol_list((symtab->table)[i]);
-    free((symtab->table)[i]);
+    destroy_symbol_list(table[i]);
   }
   // freeing up symtab after freeing its linked list
-  free(symtab->table);
+  free(table);
   free(symtab);
   return;
 }
@@ -245,7 +245,7 @@ void hash_rehash(Symtab *symtab, int new_capacity) {
   }
   // destroy old symtable
   hash_destroy(symtab);
-  
+
   // point symtab to new hash table
   symtab->size = new_symtab->size;
   symtab->capacity = new_symtab->capacity;
