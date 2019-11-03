@@ -61,6 +61,7 @@ void hash_destroy(Symtab *symtab) {
   }
   // freeing up symtab after freeing its linked list
   free(table);
+  free(symtab);
   return;
 }
 
@@ -242,17 +243,22 @@ void hash_rehash(Symtab *symtab, int new_capacity) {
       strncpy(var_name, sym_copy->variable, MAX_VARIABLE_LEN);
 
       hash_put(new_symtab, var_name, sym_copy->val);
-      walker = walker->next;
+
+      Symbol *next = walker->next;
       symbol_free(sym_copy);
+      symbol_free(walker);
+      walker = next;
     }
   }
+  free(symtab->table);
   // destroy old symtable
-  hash_destroy(symtab);
+  //hash_destroy(symtab);
 
   // point symtab to new hash table
   symtab->size = new_symtab->size;
   symtab->capacity = new_symtab->capacity;
   symtab->table = new_symtab->table;
+  new_symtab->table = NULL;
   free(new_symtab);
   return;
 }
