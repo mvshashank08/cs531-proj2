@@ -120,6 +120,7 @@ static int parse_token(Symtab *symtab, Stack_head *stack, Token *tok) {
     }
     token_free(tok2);
     token_free(tok1);
+    token_free(tok);
     return 0;
   }
   if(tok->type == TYPE_OPERATOR){
@@ -137,6 +138,7 @@ static int parse_token(Symtab *symtab, Stack_head *stack, Token *tok) {
     tok1 = NULL;
     tok2 = NULL;
     res_tok = NULL;
+    token_free(tok);
     return 0;
   }
   if(tok->type == TYPE_VARIABLE){
@@ -162,6 +164,7 @@ static int parse_token(Symtab *symtab, Stack_head *stack, Token *tok) {
       sym=NULL;
     }
     token_free(tok1);
+    token_free(tok);
     return 0;
   }
   token_free(tok);
