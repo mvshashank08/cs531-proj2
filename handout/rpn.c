@@ -118,6 +118,11 @@ static int parse_token(Symtab *symtab, Stack_head *stack, Token *tok) {
     if(tok1->type == TYPE_VARIABLE && tok2->type == TYPE_VALUE){
       hash_put(symtab, tok1->variable, tok2->value);
     }
+    if(tok1->type == TYPE_VARIABLE && tok2->type == TYPE_VARIABLE){
+        Symbol* sym = hash_get(symtab, tok2->variable);
+        hash_put(symtab, tok1->variable, sym->val);
+        symbol_free(sym);
+    }
     token_free(tok2);
     token_free(tok1);
     token_free(tok);
